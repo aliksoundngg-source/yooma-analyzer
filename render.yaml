@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: yooma-promo-analyzer
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: yooma-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/analyzer.db
