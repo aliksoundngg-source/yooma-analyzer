@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yooma Promo Analyzer Pro</title>
+<style>
+:root{--bg:#0b1020;--panel:#131b2d;--panel2:#18233a;--line:#283650;--text:#eef3ff;--muted:#91a0bb;--accent:#9aaeff;--green:#5bd6a0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#172440 0,#0b1020 48%);color:var(--text);font:15px Inter,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:28px 18px 60px}.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}.logo{width:42px;height:42px;border-radius:13px;background:#283a62;display:grid;place-items:center;font-weight:900;color:#dce5ff}.muted{color:var(--muted)}h1{font-size:26px;margin:0}h2{font-size:17px;margin:0 0 14px}.tag{margin-left:auto;border:1px solid #315d51;color:var(--green);padding:6px 10px;border-radius:30px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.two{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.panel,.metric{background:linear-gradient(145deg,var(--panel),#10182a);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.metric small{color:var(--muted)}.metric strong{display:block;font-size:28px;margin-top:8px}.metric span{font-size:12px;color:var(--muted)}
+input,textarea,select{width:100%;background:#0c1425;border:1px solid #30405d;color:var(--text);padding:12px;border-radius:9px;font:inherit}textarea{min-height:130px;resize:vertical}label{display:block;color:var(--muted);font-size:13px;margin:10px 0 6px}
+button{border:0;border-radius:9px;background:var(--accent);color:#10182a;font-weight:750;padding:11px 15px;margin:10px 7px 0 0;cursor:pointer}button.alt{background:#293955;color:var(--text)}button.danger{background:#512d3b;color:#ffdce5}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#dce6ff;max-height:380px;overflow:auto;font-size:12px}.hidden{display:none!important}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.table{width:100%;border-collapse:collapse;font-size:13px}.table td,.table th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}.table th{color:var(--muted);font-weight:500}.pill{display:inline-block;padding:4px 8px;background:#253450;border-radius:20px;font-size:11px;color:#cbd8f5}.notice{font-size:12px;color:var(--muted);line-height:1.5}.login{max-width:420px;margin:10vh auto}.status{font-size:13px;color:var(--green);margin-left:8px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.wrap{padding:20px 13px}.top{align-items:flex-start}}
+@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}.metric{padding:13px}.metric strong{font-size:23px}}
+</style></head><body>
+<div id="login" class="login panel">
+<div class="top"><div class="logo">YA</div><div><h1>Yooma Analyzer</h1><div class="muted">Private workspace</div></div></div>
+<h2>Вход в личную панель</h2><label>Пароль администратора</label><input id="password" type="password" placeholder="Введите пароль">
+<button style="width:100%" onclick="doLogin()">Войти</button><div id="loginError" class="notice"></div>
+</div>
+<div id="app" class="wrap hidden">
+<header class="top"><div class="logo">YA</div><div><h1>Yooma Promo Analyzer <span class="pill">PRO</span></h1><div class="muted">Закрытая аналитическая панель</div></div><span class="tag">● PRIVATE</span><button class="alt" onclick="logout()">Выйти</button></header>
+<div class="grid">
+<div class="metric"><small>Источников</small><strong id="docs">0</strong><span>Сохранённых страниц и текстов</span></div>
+<div class="metric"><small>Символов</small><strong id="chars">0</strong><span>Проанализировано</span></div>
+<div class="metric"><small>Кандидатов</small><strong id="candidates">0</strong><span>Нужна ручная проверка</span></div>
+<div class="metric"><small>Записей базы</small><strong id="saved">0</strong><span>Заметки о кодах</span></div>
+</div>
+<div class="two">
+<section class="panel"><h2>Сбор публичных данных</h2><label>HTTPS-ссылка на публичную страницу yooma.su</label><input id="url" placeholder="https://yooma.su/..."><button onclick="fetchPage()">Получить страницу</button><span id="fetchStatus" class="status"></span><p class="notice">Загружается только публичный HTML-текст. Учитывается robots.txt. Динамические сообщения чата могут не отображаться.</p></section>
+<section class="panel"><h2>Импорт текста вручную</h2><label>Источник</label><input id="source" value="Публичный чат / вручную"><label>Текст</label><textarea id="content" placeholder="Вставьте публичные сообщения или список известных промокодов..."></textarea><button onclick="ingest()">Сохранить и анализировать</button></section>
+</div>
+<div class="two">
+<section class="panel"><h2>Найденные кандидаты</h2><button class="alt" onclick="refresh()">Обновить анализ</button><div id="codes"></div></section>
+<section class="panel"><h2>Частые слова</h2><div id="words"></div></section>
+</div>
+<div class="two">
+<section class="panel"><h2>Генератор гипотез</h2><div class="row"><div><label>Количество</label><input id="limit" type="number" min="1" max="100" value="40"></div><div><label>&nbsp;</label><button onclick="generate()">Сгенерировать</button></div></div><div id="generated"></div><p class="notice">Сгенерированные варианты — только языковые гипотезы. Они не подтверждают существование, действительность или доступность промокода.</p></section>
+<section class="panel"><h2>База заметок о кодах</h2><label>Код</label><input id="code" placeholder="Код из публичной публикации"><div class="row"><div><label>Статус</label><select id="status"><option value="unknown">Неизвестен</option><option value="published">Опубликован</option><option value="expired">Истёк</option><option value="verified">Подтверждён вручную</option></select></div><div><label>Заметка</label><input id="note" placeholder="Источник / дата / условия"></div></div><button onclick="saveCode()">Добавить в базу</button><div id="savedCodes"></div></section>
+</div>
+<section class="panel"><h2>Проверка промокодов</h2><p class="notice">Автоматическая проверка отключена. Её можно подключить только к официальному API или иному интерфейсу, разрешённому владельцем Yooma. Никакого перебора кодов.</p><button class="alt" onclick="validateInfo()">Проверить подключение</button><span id="validateStatus" class="muted"></span></section>
+</div>
+<script>
+async function api(path,opts={}){let r=await fetch(path,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})}});let j=await r.json().catch(()=>({}));if(r.status===401){showLogin();throw Error('Сессия завершена. Войдите снова.')}if(!r.ok)throw Error(j.detail||'Ошибка запроса');return j}
+function showLogin(){document.querySelector('#login').classList.remove('hidden');document.querySelector('#app').classList.add('hidden')}
+function showApp(){document.querySelector('#login').classList.add('hidden');document.querySelector('#app').classList.remove('hidden')}
+async function check(){try{let s=await api('/api/session');if(s.authenticated){showApp();refresh();loadSaved()}else showLogin()}catch(e){showLogin()}}
+async function doLogin(){try{await api('/api/login',{method:'POST',body:JSON.stringify({password:document.querySelector('#password').value})});document.querySelector('#loginError').textContent='';showApp();refresh();loadSaved()}catch(e){document.querySelector('#loginError').textContent=e.message}}
+async function logout(){await api('/api/logout',{method:'POST'});showLogin()}
+async function ingest(){try{let j=await api('/api/ingest',{method:'POST',body:JSON.stringify({source:val('source'),content:val('content')})});document.querySelector('#content').value='';msg('Сохранено: '+j.characters+' символов');refresh()}catch(e){alert(e.message)}}
+async function fetchPage(){try{let j=await api('/api/fetch-public',{method:'POST',body:JSON.stringify({url:val('url')})});msg('fetchStatus','Сохранено: '+j.characters+' символов');refresh()}catch(e){msg('fetchStatus',e.message)}}
+async function refresh(){try{let j=await api('/api/overview');set('docs',j.documents);set('chars',j.characters);set('candidates',j.candidate_count);set('saved',j.saved_codes);document.querySelector('#codes').innerHTML=table(j.codes.map(x=>[esc(x.code),x.mentions+' упомин.']));document.querySelector('#words').innerHTML=table(j.words.slice(0,25).map(x=>[esc(x.word),x.count]));}catch(e){console.log(e)}}
+async function generate(){try{let j=await api('/api/generate',{method:'POST',body:JSON.stringify({limit:Number(val('limit'))})});document.querySelector('#generated').innerHTML='<p class="notice">'+esc(j.notice)+'</p>'+table(j.items.map(x=>[esc(x.candidate),esc(x.basis)]))}catch(e){alert(e.message)}}
+async function saveCode(){try{await api('/api/codes',{method:'POST',body:JSON.stringify({code:val('code'),status:val('status'),note:val('note')})});set('code','');set('note','');loadSaved();refresh()}catch(e){alert(e.message)}}
+async function loadSaved(){try{let j=await api('/api/codes');document.querySelector('#savedCodes').innerHTML=table(j.items.slice(0,20).map(x=>[esc(x.code),esc(x.status),esc(x.note)]))}catch(e){}}
+function validateInfo(){msg('validateStatus','Пока не подключено: нужен официальный API и разрешение владельца.')}
+function val(id){return document.getElementById(id).value}function set(id,v){document.getElementById(id).textContent=v}
+function msg(id,s){document.getElementById(id).textContent=s}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function table(rows){if(!rows.length)return '<p class="muted">Пока нет данных.</p>';return '<table class="table"><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+check();
+</script></body></html>
