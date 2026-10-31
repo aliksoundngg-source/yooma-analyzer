@@ -137,10 +137,38 @@ textarea{min-height:120px;resize:vertical}
 .profile-details h2{font-size:20px;margin:8px 0 4px}.profile-details p{margin:0 0 12px}
 @media(max-width:650px){.profile-card{padding:19px}.profile-avatar{width:64px;height:64px;flex-basis:64px;border-radius:19px}.mobile-nav button{font-size:8px}}
 
+
+/* YOOMA login ambient motion */
+#login{z-index:1}
+#login::before{content:"";position:fixed;z-index:-2;inset:-35vh -25vw;pointer-events:none;
+ background:
+ radial-gradient(ellipse at 22% 32%,#ffffff12 0,transparent 28%),
+ radial-gradient(ellipse at 78% 66%,#bcbcbc12 0,transparent 30%),
+ radial-gradient(ellipse at 50% 48%,#7777770b 0,transparent 42%);
+ animation:loginAtmosphere 18s ease-in-out infinite alternate}
+#login::after{content:"";position:fixed;z-index:-1;pointer-events:none;width:42vw;height:42vw;min-width:260px;min-height:260px;
+ left:50%;top:48%;transform:translate(-50%,-50%);border-radius:50%;
+ background:radial-gradient(circle at 35% 35%,#ffffff16, #aaaaaa08 38%,transparent 68%);
+ filter:blur(18px);animation:loginOrb 13s ease-in-out infinite alternate}
+.login-particles{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.login-particles i{position:absolute;display:block;width:3px;height:3px;border-radius:50%;background:#eee;opacity:0;
+ box-shadow:0 0 14px 3px #ffffff55;animation:loginFloat 11s linear infinite}
+.login-particles i:nth-child(1){left:12%;top:82%;animation-delay:-2s}
+.login-particles i:nth-child(2){left:28%;top:68%;animation-delay:-8s;transform:scale(.7)}
+.login-particles i:nth-child(3){left:76%;top:86%;animation-delay:-5s}
+.login-particles i:nth-child(4){left:88%;top:54%;animation-delay:-10s;transform:scale(.6)}
+.login-particles i:nth-child(5){left:58%;top:92%;animation-delay:-6s}
+.login-particles i:nth-child(6){left:42%;top:74%;animation-delay:-3s;transform:scale(.8)}
+@keyframes loginAtmosphere{from{transform:translate3d(-2%,0,0) scale(1)}to{transform:translate3d(2%,1.5%,0) scale(1.08)}}
+@keyframes loginOrb{from{translate:-8% -5%;scale:.82;opacity:.5}to{translate:8% 6%;scale:1.18;opacity:1}}
+@keyframes loginFloat{0%{opacity:0;translate:0 25px}15%{opacity:.45}75%{opacity:.25}100%{opacity:0;translate:18px -110px}}
+@media(prefers-reduced-motion:reduce){#login::before,#login::after,.login-particles i{animation:none!important}}
+
 </style>
 </head>
 <body>
 <div id="login" class="login">
+ <div class="login-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
  <div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">PRIVATE WORKSPACE</div></div></div>
  <div class="eyebrow">WELCOME BACK / 01</div>
  <h2>Рады видеть тебя снова</h2>
