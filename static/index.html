@@ -1,73 +1,137 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Yooma Promo Analyzer Pro</title>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Yooma — Promo Analyzer</title>
 <style>
-:root{--bg:#050505;--panel:#101010;--panel2:#181818;--line:#303030;--text:#f5f5f5;--muted:#a3a3a3;--accent:#f2f2f2;--green:#d8d8d8}
+:root{--bg:#080808;--panel:#111;--panel2:#171717;--line:#292929;--text:#f5f5f5;--muted:#929292;--white:#f4f4f4}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#242424 0,#090909 48%,#050505 100%);color:var(--text);font:15px Inter,system-ui,sans-serif}
-.wrap{max-width:1180px;margin:auto;padding:28px 18px 60px}
-.top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.logo{width:42px;height:42px;border-radius:12px;background:#f2f2f2;display:grid;place-items:center;font-weight:900;color:#080808;letter-spacing:-1px}
-.muted{color:var(--muted)}
-h1{font-size:26px;margin:0;letter-spacing:-.7px}
-h2{font-size:17px;margin:0 0 14px;letter-spacing:-.2px}
-.tag{margin-left:auto;border:1px solid #666;color:#eee;padding:6px 10px;border-radius:30px;font-size:12px;letter-spacing:1px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
-.two{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
-.panel,.metric{background:linear-gradient(145deg,#151515,#0d0d0d);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 12px 35px rgba(0,0,0,.22)}
-.metric{background:linear-gradient(145deg,#191919,#101010)}
-.metric small{color:var(--muted)}
-.metric strong{display:block;font-size:28px;margin-top:8px;color:#fff}
-.metric span{font-size:12px;color:var(--muted)}
-input,textarea,select{width:100%;background:#080808;border:1px solid #393939;color:var(--text);padding:12px;border-radius:9px;font:inherit;outline:none}
-input:focus,textarea:focus,select:focus{border-color:#aaa;box-shadow:0 0 0 2px rgba(255,255,255,.08)}
-textarea{min-height:130px;resize:vertical}
-label{display:block;color:var(--muted);font-size:13px;margin:10px 0 6px}
-button{border:1px solid #f2f2f2;border-radius:9px;background:#f2f2f2;color:#080808;font-weight:750;padding:11px 15px;margin:10px 7px 0 0;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-button:hover{background:#cfcfcf;border-color:#cfcfcf}
-button.alt{background:#171717;border-color:#555;color:#f5f5f5}
-button.alt:hover{background:#292929;border-color:#aaa}
-button.danger{background:#292929;border-color:#777;color:#fff}
-pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#eee;max-height:380px;overflow:auto;font-size:12px}
+html{scroll-behavior:smooth}
+body{margin:0;background:#080808;color:var(--text);font:14px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
 .hidden{display:none!important}
-.row{display:flex;gap:9px;align-items:center}
-.row>*{flex:1}
-.table{width:100%;border-collapse:collapse;font-size:13px}
-.table td,.table th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}
-.table th{color:var(--muted);font-weight:500}
-.pill{display:inline-block;padding:4px 8px;background:#292929;border:1px solid #444;border-radius:20px;font-size:11px;color:#eee}
-.notice{font-size:12px;color:var(--muted);line-height:1.5}
-.login{max-width:420px;margin:10vh auto}
-.status{font-size:13px;color:#eee;margin-left:8px}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.wrap{padding:20px 13px}.top{align-items:flex-start}}
-@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}.metric{padding:13px}.metric strong{font-size:23px}h1{font-size:21px}.tag{font-size:10px;padding:5px 8px}}
-</style></head><body>
-<div id="login" class="login panel">
-<div class="top"><div class="logo">YA</div><div><h1>Yooma Analyzer</h1><div class="muted">Private workspace</div></div></div>
-<h2>Вход в личную панель</h2><label>Пароль администратора</label><input id="password" type="password" placeholder="Введите пароль">
-<button style="width:100%" onclick="doLogin()">Войти</button><div id="loginError" class="notice"></div>
+.muted{color:var(--muted)}
+/* login */
+.login{width:min(420px,calc(100% - 28px));margin:10vh auto;background:linear-gradient(145deg,#171717,#0d0d0d);border:1px solid #303030;border-radius:20px;padding:26px;box-shadow:0 25px 80px #0009}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;background:#f2f2f2;color:#080808;display:grid;place-items:center;font-weight:950;letter-spacing:-1px}
+.brand-name{font-size:19px;font-weight:750;letter-spacing:-.5px}
+.brand-sub{font-size:12px;color:#929292;margin-top:3px}
+.login h2{font-size:18px;margin:28px 0 8px}
+label{display:block;color:#aaa;font-size:12px;margin:13px 0 7px}
+input,textarea,select{width:100%;background:#080808;border:1px solid #363636;color:#f5f5f5;border-radius:10px;padding:12px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:#aaa;box-shadow:0 0 0 3px #fff1}
+textarea{min-height:120px;resize:vertical}
+.btn{border:1px solid #eee;background:#eee;color:#080808;border-radius:10px;padding:11px 15px;font-weight:750;transition:.18s}
+.btn:hover{background:#ccc;transform:translateY(-1px)}
+.btn.secondary{background:#181818;color:#eee;border-color:#444}
+.btn.secondary:hover{background:#262626;border-color:#777}
+.btn.full{width:100%;margin-top:15px}
+.notice{font-size:12px;color:#929292;line-height:1.55}
+/* app shell */
+.shell{min-height:100vh;display:grid;grid-template-columns:224px minmax(0,1fr);background:radial-gradient(ellipse at 70% 0,#202020 0,#0b0b0b 38%,#080808 75%)}
+.sidebar{position:sticky;top:0;height:100vh;border-right:1px solid #252525;background:#090909dd;padding:23px 14px;display:flex;flex-direction:column;z-index:5}
+.sidebar .brand{padding:0 9px 30px}
+.nav-label{font-size:10px;color:#666;letter-spacing:1.6px;padding:0 12px;margin:12px 0 8px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;border:1px solid transparent;border-radius:10px;background:transparent;color:#aaa;text-align:left;margin:2px 0;font-size:13px}
+.nav:hover,.nav.active{background:#1b1b1b;color:#fff;border-color:#303030}
+.nav .symbol{width:18px;text-align:center;font-size:16px}
+.side-bottom{margin-top:auto}
+.main{min-width:0;padding:28px clamp(16px,3vw,42px) 55px;max-width:1500px;width:100%;margin:0 auto}
+.header{display:flex;align-items:center;gap:15px;margin-bottom:28px}
+.header h1{font-size:26px;letter-spacing:-1px;margin:0}
+.header p{font-size:12px;color:#999;margin:5px 0 0}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.private{font-size:10px;letter-spacing:1.2px;border:1px solid #555;border-radius:30px;padding:7px 10px;color:#ddd}
+.avatar{width:36px;height:36px;border:1px solid #555;border-radius:50%;display:grid;place-items:center;background:#191919}
+.page-title{margin:0 0 18px;font-size:16px;font-weight:650}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.metric,.card{background:linear-gradient(145deg,#171717,#101010);border:1px solid #2b2b2b;border-radius:15px;box-shadow:0 12px 35px #0004}
+.metric{padding:17px;min-width:0}
+.metric .metric-label{font-size:12px;color:#999}
+.metric strong{display:block;font-size:28px;letter-spacing:-1px;margin:9px 0 4px}
+.metric small{font-size:11px;color:#777}
+.content-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.card{padding:18px;margin:0 0 14px;min-width:0}
+.card h2{font-size:15px;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+.card h2 .ico{width:27px;height:27px;border-radius:8px;background:#202020;border:1px solid #383838;display:grid;place-items:center;color:#eee}
+.card p{margin:12px 0 0}
+.row{display:flex;gap:10px;align-items:end}
+.row>*{flex:1;min-width:0}
+.table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.table td,.table th{text-align:left;padding:10px 8px;border-bottom:1px solid #292929;overflow-wrap:anywhere}
+.table tr:last-child td{border-bottom:0}
+.table tr:hover td{background:#ffffff08}
+.table th{color:#888;font-weight:500}
+.output{overflow-x:auto}
+.status{font-size:12px;color:#ddd;margin-left:8px}
+.pill{font-size:10px;border:1px solid #555;border-radius:20px;padding:4px 8px;color:#ddd;letter-spacing:.5px}
+.section-anchor{scroll-margin-top:20px}
+.mobile-top,.mobile-nav{display:none}
+@media(max-width:900px){.shell{grid-template-columns:190px minmax(0,1fr)}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.main{padding:22px 18px 45px}}
+@media(max-width:650px){
+ .shell{display:block;padding-bottom:68px}.sidebar{display:none}.mobile-top{display:flex;align-items:center;padding:14px 15px;border-bottom:1px solid #292929;background:#090909;position:sticky;top:0;z-index:10}
+ .mobile-top .brand-name{font-size:16px}.mobile-top .logo{width:35px;height:35px}
+ .main{padding:20px 13px 35px}.header{margin-bottom:20px;align-items:flex-start}.header h1{font-size:21px}.private{display:none}
+ .metrics{gap:9px}.metric{padding:13px;border-radius:12px}.metric strong{font-size:24px}.metric small{font-size:10px}
+ .card{padding:15px;border-radius:13px}.row{gap:7px}.btn{padding:10px 12px;font-size:12px}
+ .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:20;background:#0b0b0bf2;border-top:1px solid #333;backdrop-filter:blur(18px);justify-content:space-around;padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+ .mobile-nav button{background:transparent;border:0;color:#888;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;padding:3px 8px;margin:0}
+ .mobile-nav button span:first-child{font-size:17px}.mobile-nav button.active{color:#fff}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+ <div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">Private workspace</div></div></div>
+ <h2>Вход в личную панель</h2><div class="notice">Продолжите работу в Yooma Promo Analyzer</div>
+ <label>Пароль администратора</label><input id="password" type="password" placeholder="Введите пароль">
+ <button class="btn full" onclick="doLogin()">Войти　→</button><div id="loginError" class="notice" style="margin-top:12px"></div>
 </div>
-<div id="app" class="wrap hidden">
-<header class="top"><div class="logo">YA</div><div><h1>Yooma Promo Analyzer <span class="pill">PRO</span></h1><div class="muted">Закрытая аналитическая панель</div></div><span class="tag">● PRIVATE</span><button class="alt" onclick="logout()">Выйти</button></header>
-<div class="grid">
-<div class="metric"><small>Источников</small><strong id="docs">0</strong><span>Сохранённых страниц и текстов</span></div>
-<div class="metric"><small>Символов</small><strong id="chars">0</strong><span>Проанализировано</span></div>
-<div class="metric"><small>Кандидатов</small><strong id="candidates">0</strong><span>Нужна ручная проверка</span></div>
-<div class="metric"><small>Записей базы</small><strong id="saved">0</strong><span>Заметки о кодах</span></div>
-</div>
-<div class="two">
-<section class="panel"><h2>Сбор публичных данных</h2><label>HTTPS-ссылка на публичную страницу yooma.su</label><input id="url" placeholder="https://yooma.su/..."><button onclick="fetchPage()">Получить страницу</button><span id="fetchStatus" class="status"></span><p class="notice">Загружается только публичный HTML-текст. Учитывается robots.txt. Динамические сообщения чата могут не отображаться.</p></section>
-<section class="panel"><h2>Импорт текста вручную</h2><label>Источник</label><input id="source" value="Публичный чат / вручную"><label>Текст</label><textarea id="content" placeholder="Вставьте публичные сообщения или список известных промокодов..."></textarea><button onclick="ingest()">Сохранить и анализировать</button></section>
-</div>
-<div class="two">
-<section class="panel"><h2>Найденные кандидаты</h2><button class="alt" onclick="refresh()">Обновить анализ</button><div id="codes"></div></section>
-<section class="panel"><h2>Частые слова</h2><div id="words"></div></section>
-</div>
-<div class="two">
-<section class="panel"><h2>Генератор гипотез</h2><div class="row"><div><label>Количество</label><input id="limit" type="number" min="1" max="1000" value="1000"></div><div><label>&nbsp;</label><button onclick="generate()">Сгенерировать</button></div></div><div id="generated"></div><p class="notice">Сгенерированные варианты — только языковые гипотезы. Они не подтверждают существование, действительность или доступность промокода.</p></section>
-<section class="panel"><h2>База заметок о кодах</h2><label>Код</label><input id="code" placeholder="Код из публичной публикации"><div class="row"><div><label>Статус</label><select id="status"><option value="unknown">Неизвестен</option><option value="published">Опубликован</option><option value="expired">Истёк</option><option value="verified">Подтверждён вручную</option></select></div><div><label>Заметка</label><input id="note" placeholder="Источник / дата / условия"></div></div><button onclick="saveCode()">Добавить в базу</button><div id="savedCodes"></div></section>
-</div>
-<section class="panel"><h2>Проверка промокодов</h2><p class="notice">Автоматическая проверка отключена. Её можно подключить только к официальному API или иному интерфейсу, разрешённому владельцем Yooma. Никакого перебора кодов.</p><button class="alt" onclick="validateInfo()">Проверить подключение</button><span id="validateStatus" class="muted"></span></section>
+<div id="app" class="shell hidden">
+ <aside class="sidebar">
+  <div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">PROMO ANALYZER</div></div></div>
+  <div class="nav-label">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+  <button class="nav active" onclick="go('overview',this)"><span class="symbol">⌂</span>Главная</button>
+  <button class="nav" onclick="go('analysis',this)"><span class="symbol">⌕</span>Анализ данных</button>
+  <button class="nav" onclick="go('candidates',this)"><span class="symbol">◇</span>Кандидаты</button>
+  <button class="nav" onclick="go('generator',this)"><span class="symbol">✳</span>Генератор гипотез</button>
+  <button class="nav" onclick="go('notes',this)"><span class="symbol">▤</span>База заметок</button>
+  <button class="nav" onclick="go('stats',this)"><span class="symbol">▥</span>Статистика</button>
+  <div class="side-bottom"><div class="nav-label">АККАУНТ</div><button class="nav" onclick="logout()"><span class="symbol">↗</span>Выйти</button></div>
+ </aside>
+ <div class="mobile-top"><div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">PROMO ANALYZER</div></div></div><div class="header-right"><span class="pill">PRIVATE</span></div></div>
+ <main class="main">
+  <header class="header" id="overview"><div><h1>Добро пожаловать в Yooma</h1><p>Твоя аналитическая панель промокодов и публичных данных.</p></div><div class="header-right"><span class="private">● PRIVATE WORKSPACE</span><div class="avatar">Y</div></div></header>
+  <div class="metrics" id="stats">
+   <div class="metric"><div class="metric-label">▤　Источников</div><strong id="docs">0</strong><small>Сохранённых страниц и текстов</small></div>
+   <div class="metric"><div class="metric-label">⌗　Символов</div><strong id="chars">0</strong><small>Проанализировано</small></div>
+   <div class="metric"><div class="metric-label">◇　Кандидатов</div><strong id="candidates">0</strong><small>Нужна ручная проверка</small></div>
+   <div class="metric"><div class="metric-label">▣　Записей базы</div><strong id="saved">0</strong><small>Заметки о кодах</small></div>
+  </div>
+  <div class="content-grid">
+   <section class="card section-anchor" id="analysis"><h2><span class="ico">↧</span>Сбор публичных данных</h2><label>HTTPS-ссылка на публичную страницу yooma.su</label><input id="url" placeholder="https://yooma.su/..."><button class="btn" onclick="fetchPage()">Получить страницу　→</button><span id="fetchStatus" class="status"></span><p class="notice">Загружается только публичный HTML-текст. Учитывается robots.txt. Динамические сообщения чата могут не отображаться.</p></section>
+   <section class="card"><h2><span class="ico">＋</span>Импорт текста вручную</h2><label>Источник</label><input id="source" value="Публичный чат / вручную"><label>Текст</label><textarea id="content" placeholder="Вставьте публичные сообщения или список известных промокодов..."></textarea><button class="btn" onclick="ingest()">Сохранить и анализировать　→</button></section>
+  </div>
+  <div class="content-grid">
+   <section class="card section-anchor" id="candidates"><h2><span class="ico">⌕</span>Найденные кандидаты</h2><button class="btn secondary" onclick="refresh()">↻ Обновить анализ</button><div id="codes" class="output"></div></section>
+   <section class="card"><h2><span class="ico">▥</span>Частые слова</h2><div id="words" class="output"></div></section>
+  </div>
+  <div class="content-grid">
+   <section class="card section-anchor" id="generator"><h2><span class="ico">✳</span>Генератор гипотез</h2><div class="row"><div><label>Количество</label><input id="limit" type="number" min="1" max="1000" value="1000"></div><div><button class="btn" onclick="generate()">Сгенерировать　→</button></div></div><div id="generated" class="output"></div><p class="notice">Сгенерированные варианты — только языковые гипотезы. Они не подтверждают существование, действительность или доступность промокода.</p></section>
+   <section class="card section-anchor" id="notes"><h2><span class="ico">▤</span>База заметок о кодах</h2><label>Код</label><input id="code" placeholder="Код из публичной публикации"><div class="row"><div><label>Статус</label><select id="status"><option value="unknown">Неизвестен</option><option value="published">Опубликован</option><option value="expired">Истёк</option><option value="verified">Подтверждён вручную</option></select></div><div><label>Заметка</label><input id="note" placeholder="Источник / дата / условия"></div></div><button class="btn" onclick="saveCode()">＋ Добавить в базу</button><div id="savedCodes" class="output"></div></section>
+  </div>
+  <section class="card"><h2><span class="ico">⌁</span>Проверка промокодов</h2><p class="notice">Автоматическая проверка отключена. Её можно подключить только к официальному API или иному интерфейсу, разрешённому владельцем Yooma. Никакого перебора кодов.</p><button class="btn secondary" onclick="validateInfo()">Проверить подключение</button><span id="validateStatus" class="status"></span></section>
+ </main>
+ <nav class="mobile-nav">
+  <button class="active" onclick="go('overview',this)"><span>⌂</span><span>Главная</span></button>
+  <button onclick="go('analysis',this)"><span>⌕</span><span>Анализ</span></button>
+  <button onclick="go('generator',this)"><span>✳</span><span>Гипотезы</span></button>
+  <button onclick="go('notes',this)"><span>▤</span><span>Заметки</span></button>
+ </nav>
 </div>
 <script>
 async function api(path,opts={}){let r=await fetch(path,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})}});let j=await r.json().catch(()=>({}));if(r.status===401){showLogin();throw Error('Сессия завершена. Войдите снова.')}if(!r.ok)throw Error(j.detail||'Ошибка запроса');return j}
@@ -76,15 +140,19 @@ function showApp(){document.querySelector('#login').classList.add('hidden');docu
 async function check(){try{let s=await api('/api/session');if(s.authenticated){showApp();refresh();loadSaved()}else showLogin()}catch(e){showLogin()}}
 async function doLogin(){try{await api('/api/login',{method:'POST',body:JSON.stringify({password:document.querySelector('#password').value})});document.querySelector('#loginError').textContent='';showApp();refresh();loadSaved()}catch(e){document.querySelector('#loginError').textContent=e.message}}
 async function logout(){await api('/api/logout',{method:'POST'});showLogin()}
-async function ingest(){try{let j=await api('/api/ingest',{method:'POST',body:JSON.stringify({source:val('source'),content:val('content')})});document.querySelector('#content').value='';msg('Сохранено: '+j.characters+' символов');refresh()}catch(e){alert(e.message)}}
+async function ingest(){try{let j=await api('/api/ingest',{method:'POST',body:JSON.stringify({source:val('source'),content:val('content')})});document.querySelector('#content').value='';alert('Сохранено: '+j.characters+' символов');refresh()}catch(e){alert(e.message)}}
 async function fetchPage(){try{let j=await api('/api/fetch-public',{method:'POST',body:JSON.stringify({url:val('url')})});msg('fetchStatus','Сохранено: '+j.characters+' символов');refresh()}catch(e){msg('fetchStatus',e.message)}}
 async function refresh(){try{let j=await api('/api/overview');set('docs',j.documents);set('chars',j.characters);set('candidates',j.candidate_count);set('saved',j.saved_codes);document.querySelector('#codes').innerHTML=table(j.codes.map(x=>[esc(x.code),x.mentions+' упомин.']));document.querySelector('#words').innerHTML=table(j.words.slice(0,25).map(x=>[esc(x.word),x.count]));}catch(e){console.log(e)}}
 async function generate(){try{let j=await api('/api/generate',{method:'POST',body:JSON.stringify({limit:Number(val('limit'))})});document.querySelector('#generated').innerHTML='<p class="notice">'+esc(j.notice)+'</p>'+table(j.items.map(x=>[esc(x.candidate),esc(x.basis)]))}catch(e){alert(e.message)}}
 async function saveCode(){try{await api('/api/codes',{method:'POST',body:JSON.stringify({code:val('code'),status:val('status'),note:val('note')})});set('code','');set('note','');loadSaved();refresh()}catch(e){alert(e.message)}}
 async function loadSaved(){try{let j=await api('/api/codes');document.querySelector('#savedCodes').innerHTML=table(j.items.slice(0,20).map(x=>[esc(x.code),esc(x.status),esc(x.note)]))}catch(e){}}
 function validateInfo(){msg('validateStatus','Пока не подключено: нужен официальный API и разрешение владельца.')}
-function val(id){return document.getElementById(id).value}function set(id,v){document.getElementById(id).textContent=v}
-function msg(id,s){document.getElementById(id).textContent=s}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function val(id){return document.getElementById(id).value}
+function set(id,v){document.getElementById(id).textContent=v}
+function msg(id,s){document.getElementById(id).textContent=s}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function table(rows){if(!rows.length)return '<p class="muted">Пока нет данных.</p>';return '<table class="table"><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+function go(id,el){let target=document.getElementById(id);if(target)target.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav,.mobile-nav button').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active')}
 check();
-</script></body></html>
+</script>
+</body></html>
