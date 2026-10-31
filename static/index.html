@@ -242,6 +242,7 @@ textarea{min-height:120px;resize:vertical}
   <button class="nav" data-tab="generator" onclick="go('generator',this)"><span class="symbol">✳</span>Генератор гипотез</button>
   <button class="nav" data-tab="notes" onclick="go('notes',this)"><span class="symbol">▤</span>База заметок</button>
   <button class="nav" data-tab="stats" onclick="go('stats',this)"><span class="symbol">▥</span>Статистика</button>
+  <button class="nav" data-tab="disclaimer" onclick="go('disclaimer',this)"><span class="symbol">ⓘ</span>Уведомление</button>
   <div class="side-bottom"><div class="nav-label">АККАУНТ</div><button class="nav" data-tab="profile" onclick="go('profile',this)"><span class="symbol">◉</span>Профиль</button></div>
  </aside>
  <div class="mobile-top"><div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">PROMO ANALYZER</div></div></div><div class="header-right"><span class="pill">PRIVATE</span></div></div>
@@ -294,6 +295,15 @@ textarea{min-height:120px;resize:vertical}
    </div>
    <section class="card"><h2>Проверка промокодов</h2><p class="notice">Автоматическая проверка отключена. Её можно подключить только к официальному API или иному интерфейсу, разрешённому владельцем Yooma. Никакого перебора кодов.</p><button class="btn secondary" onclick="validateInfo()">Проверить подключение</button><span id="validateStatus" class="status"></span></section>
   </section>
+  <section class="tab-panel" id="tab-disclaimer">
+   <div class="section-intro"><span class="eyebrow">INFO / TRANSPARENCY</span><h2>Важное уведомление</h2><p class="muted">Информация о назначении и статусе проекта.</p></div>
+   <section class="card" style="padding:clamp(22px,4vw,34px);max-width:850px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px"><div class="profile-avatar" style="width:52px;height:52px;flex-basis:52px;border-radius:16px;font-size:25px">ⓘ</div><div><span class="eyebrow">TRANSPARENCY NOTICE</span><h2 style="margin:5px 0 0">Независимый проект</h2></div></div>
+    <p style="font-size:15px;line-height:1.8;color:#e5e5e5">«YOOMA Promo Analyzer» — независимый проект, не связанный с оригинальным сайтом Yooma, его владельцами или представителями.</p>
+    <p style="font-size:15px;line-height:1.8;color:#e5e5e5">Все отображаемые слова, варианты и промокоды являются результатом автоматической генерации или анализа добавленных материалов. Сгенерированные промокоды — только гипотезы: их существование, действительность и работоспособность не подтверждены.</p>
+    <div class="notice" style="margin-top:22px;padding:16px;border-radius:14px;line-height:1.7">Используйте информацию как справочный материал. Перед применением любого промокода самостоятельно проверяйте его условия и актуальность на официальных ресурсах.</div>
+   </section>
+  </section>
   <section class="tab-panel" id="tab-profile">
    <div class="section-intro"><span class="eyebrow">ACCOUNT / 06</span><h2>Твой профиль</h2><p class="muted">Управление текущей сессией и доступом к YOOMA.</p></div>
    <section class="card profile-card">
@@ -312,6 +322,7 @@ textarea{min-height:120px;resize:vertical}
   <button data-tab="analysis" onclick="go('analysis',this)"><span>⌕</span><span>Анализ</span></button>
   <button data-tab="generator" onclick="go('generator',this)"><span>✳</span><span>Гипотезы</span></button>
   <button data-tab="notes" onclick="go('notes',this)"><span>▤</span><span>Заметки</span></button>
+  <button data-tab="disclaimer" onclick="go('disclaimer',this)"><span>ⓘ</span><span>Инфо</span></button>
   <button data-tab="profile" onclick="go('profile',this)"><span>◉</span><span>Профиль</span></button>
  </nav>
 </div>
@@ -336,7 +347,7 @@ function msg(id,s){document.getElementById(id).textContent=s}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function table(rows){if(!rows.length)return '<p class="muted">Пока нет данных.</p>';return '<table class="table"><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
 function go(id,el){
- const names={profile:['Профиль','Настройки аккаунта и управление сессией.'],overview:['Главная','Краткая сводка твоего рабочего пространства.'],analysis:['Анализ данных','Сбор и импорт публичной информации.'],candidates:['Кандидаты','Найденные варианты и частотность упоминаний.'],generator:['Генератор гипотез','Варианты для дальнейшей ручной проверки.'],notes:['База заметок','Твои сохранённые записи о промокодах.'],stats:['Статистика','Состояние проекта и подключения.']};
+ const names={disclaimer:['Важное уведомление','Независимость проекта и статус сгенерированных вариантов.'],profile:['Профиль','Настройки аккаунта и управление сессией.'],overview:['Главная','Краткая сводка твоего рабочего пространства.'],analysis:['Анализ данных','Сбор и импорт публичной информации.'],candidates:['Кандидаты','Найденные варианты и частотность упоминаний.'],generator:['Генератор гипотез','Варианты для дальнейшей ручной проверки.'],notes:['База заметок','Твои сохранённые записи о промокодах.'],stats:['Статистика','Состояние проекта и подключения.']};
  document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
  const panel=document.getElementById('tab-'+id);if(panel)panel.classList.add('active');
  document.querySelectorAll('.nav,.mobile-nav button').forEach(x=>{x.classList.toggle('active',x.dataset.tab===id)});
