@@ -164,6 +164,23 @@ textarea{min-height:120px;resize:vertical}
 @keyframes loginFloat{0%{opacity:0;translate:0 25px}15%{opacity:.45}75%{opacity:.25}100%{opacity:0;translate:18px -110px}}
 @media(prefers-reduced-motion:reduce){#login::before,#login::after,.login-particles i{animation:none!important}}
 
+
+/* YOOMA ambient light waves across the whole workspace */
+.shell{position:relative;isolation:isolate;overflow:hidden;background:#080808}
+.shell::before{content:"";position:fixed;z-index:0;inset:-30%;pointer-events:none;
+ background:
+  radial-gradient(ellipse at 18% 28%,#d7e3f018 0,transparent 28%),
+  radial-gradient(ellipse at 82% 62%,#9ba9c018 0,transparent 30%),
+  radial-gradient(ellipse at 50% 95%,#ffffff0b 0,transparent 34%);
+ filter:blur(22px);animation:workspaceGlow 22s ease-in-out infinite alternate}
+.shell::after{content:"";position:fixed;z-index:0;pointer-events:none;inset:-60% -40%;
+ background:linear-gradient(112deg,transparent 42%,#ffffff08 49%,#cbd5e412 50%,#ffffff05 51%,transparent 58%);
+ transform:translateX(-35%) rotate(-8deg);animation:workspaceWave 19s ease-in-out infinite}
+.shell>.sidebar,.shell>.main,.shell>.mobile-nav{position:relative;z-index:1}
+@keyframes workspaceGlow{0%{transform:translate3d(-2%,-1%,0) scale(.96);opacity:.65}50%{opacity:1}100%{transform:translate3d(3%,2%,0) scale(1.08);opacity:.75}}
+@keyframes workspaceWave{0%{transform:translateX(-38%) rotate(-8deg);opacity:0}18%{opacity:.7}65%{opacity:.55}100%{transform:translateX(38%) rotate(-8deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.shell::before,.shell::after{animation:none!important}}
+
 </style>
 </head>
 <body>
