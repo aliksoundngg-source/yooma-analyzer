@@ -181,20 +181,56 @@ textarea{min-height:120px;resize:vertical}
 @keyframes workspaceWave{0%{transform:translateX(-38%) rotate(-8deg);opacity:0}18%{opacity:.7}65%{opacity:.55}100%{transform:translateX(38%) rotate(-8deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.shell::before,.shell::after{animation:none!important}}
 
+
+/* Cinematic YOOMA sign-in composition */
+#login{width:min(680px,calc(100% - 28px));margin:3vh auto 40px;padding:0 0 12px;background:transparent;border:0;box-shadow:none;overflow:visible}
+#login:before{display:none}
+#login:after{display:none}
+#login .login-visual{height:245px;position:relative;overflow:hidden;margin:0 -10vw -18px;pointer-events:none}
+#login .login-orb{position:absolute;width:154px;height:154px;border-radius:50%;left:50%;top:45%;transform:translate(-50%,-50%);background:radial-gradient(circle at 35% 30%,#29313a 0,#090b0e 48%,#020304 72%);box-shadow:0 0 0 1px #aab6c655,0 0 45px #cbd5e422,0 0 100px #aab6c611;animation:orbBreath 8s ease-in-out infinite alternate}
+#login .login-orb:after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid #dce5f044;filter:blur(1px)}
+#login .login-ribbon{position:absolute;width:130%;height:100px;left:-15%;top:42%;border-top:1px solid #cbd5e477;border-radius:50%;filter:drop-shadow(0 0 8px #dce5f044);transform:rotate(-13deg);animation:ribbonDrift 12s ease-in-out infinite alternate}
+#login .ribbon-two{top:55%;transform:rotate(12deg);border-color:#aab7c455;animation-delay:-5s}
+#login .login-brand{text-align:center;position:relative;margin:0 0 28px;animation:brandReveal 1.1s cubic-bezier(.2,.8,.2,1) both}
+#login .login-wordmark{font-size:clamp(46px,11vw,68px);font-weight:200;letter-spacing:.18em;padding-left:.18em;color:#f2f3f5;text-shadow:0 0 30px #dbe5f044}
+#login .login-tagline{font-size:10px;letter-spacing:.34em;color:#858d98;margin-top:9px}
+#login .login-panel{position:relative;padding:30px clamp(22px,6vw,48px) 25px;border:1px solid #737d8a55;border-radius:28px;background:linear-gradient(145deg,#11151bdc,#050607eF);backdrop-filter:blur(22px);box-shadow:0 25px 90px #000b,inset 0 1px #ffffff12;animation:panelReveal 1s .18s cubic-bezier(.2,.8,.2,1) both}
+#login .login-panel:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(125deg,#ffffff0b,transparent 38%,transparent 70%,#cbd5e40a)}
+#login .login-panel h2{font-size:clamp(23px,5vw,30px);margin:12px 0 8px;letter-spacing:-.6px}
+#login .login-panel .notice{font-size:14px;color:#aab2bf}
+#login .login-panel label{display:block;margin-top:25px}
+#login .login-panel input{height:54px;border-radius:16px;background:#090b0ed9;border:1px solid #66707d77}
+#login .login-panel input:focus{border-color:#c4cfdd;box-shadow:0 0 0 3px #dce5f018,0 0 25px #dce5f014;outline:none}
+#login .login-panel .btn.full{height:56px;border-radius:18px;background:linear-gradient(110deg,#e6e9ee,#9ba8b8,#f4f5f7);background-size:200% 100%;animation:buttonShimmer 7s ease-in-out infinite;color:#090b0e;box-shadow:0 0 24px #dce5f022}
+#login .login-foot{margin-top:24px}
+@keyframes orbBreath{from{scale:.94;box-shadow:0 0 0 1px #aab6c655,0 0 35px #cbd5e422}to{scale:1.06;box-shadow:0 0 0 1px #dce5f077,0 0 65px #cbd5e444}}
+@keyframes ribbonDrift{from{translate:-3% -8px;rotate:-2deg;opacity:.45}to{translate:3% 10px;rotate:2deg;opacity:1}}
+@keyframes brandReveal{from{opacity:0;transform:translateY(22px);letter-spacing:.28em;filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes panelReveal{from{opacity:0;transform:translateY(28px) scale(.98);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes buttonShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@media(max-width:650px){#login{margin:1vh auto 25px}#login .login-visual{height:205px;margin:0 -6vw -12px}#login .login-orb{width:130px;height:130px}#login .login-panel{padding:25px 21px 22px;border-radius:23px}#login .login-brand{margin-bottom:22px}#login .login-tagline{font-size:9px}}
+@media(prefers-reduced-motion:reduce){#login .login-orb,#login .login-ribbon,#login .login-brand,#login .login-panel,#login .login-panel .btn.full{animation:none!important}}
+
 </style>
 </head>
 <body>
 <div id="login" class="login">
  <div class="login-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
- <div class="brand"><div class="logo">Y</div><div><div class="brand-name">YOOMA</div><div class="brand-sub">PRIVATE WORKSPACE</div></div></div>
- <div class="eyebrow">WELCOME BACK / 01</div>
- <h2>Рады видеть тебя снова</h2>
- <div class="notice">Войди в своё пространство, чтобы продолжить анализ и работу с данными.</div>
- <label for="password">Пароль администратора</label>
- <div class="password-wrap"><input id="password" type="password" autocomplete="current-password" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')doLogin()"><button class="password-toggle" type="button" onclick="togglePassword()">ПОКАЗАТЬ</button></div>
- <button class="btn full" onclick="doLogin()">Войти в YOOMA <span aria-hidden="true">　→</span></button>
- <div id="loginError" class="notice" role="alert" style="margin-top:13px;color:#e6a0a0"></div>
- <div class="login-foot"><span>YOOMA ANALYZER</span><span>PRIVATE ACCESS</span></div>
+ <div class="login-visual" aria-hidden="true"><div class="login-orb"></div><div class="login-ribbon ribbon-one"></div><div class="login-ribbon ribbon-two"></div></div>
+ <div class="login-brand">
+  <div class="login-wordmark">YOOMA</div>
+  <div class="login-tagline">АНАЛИЗ · КУЛЬТУРА · ЛЮДИ</div>
+ </div>
+ <div class="login-panel">
+  <div class="eyebrow">PRIVATE WORKSPACE / 01</div>
+  <h2>Добро пожаловать</h2>
+  <div class="notice">Войди в своё пространство, чтобы продолжить работу.</div>
+  <label for="password">Пароль администратора</label>
+  <div class="password-wrap"><input id="password" type="password" autocomplete="current-password" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')doLogin()"><button class="password-toggle" type="button" onclick="togglePassword()">ПОКАЗАТЬ</button></div>
+  <button class="btn full" onclick="doLogin()">Войти <span aria-hidden="true">　→</span></button>
+  <div id="loginError" class="notice" role="alert" style="margin-top:13px;color:#e6a0a0"></div>
+  <div class="login-foot"><span>YOOMA ANALYZER</span><span>PRIVATE ACCESS</span></div>
+ </div>
 </div>
 <div id="app" class="shell hidden">
  <aside class="sidebar">
